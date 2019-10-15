@@ -22,6 +22,7 @@ export default class Drawer extends React.Component {
     noTouchClose: bool, // can a user pan to close
     onChange: func, // called when the drawer is open
     drawerStyle: object, // additional drawer styles
+    transformStyle: object, // additional transform styles
     className: string, // additional drawer className
     overlayClassName: string, // additional overlay className
     config: PropTypes.shape({
@@ -182,6 +183,7 @@ export default class Drawer extends React.Component {
     const {
       config,
       drawerStyle,
+      transformStyle,
       className,
       overlayClassName,
       width,
@@ -202,6 +204,8 @@ export default class Drawer extends React.Component {
           if (interpolated.myProp > 0) computedStyle.display = "block";
           else computedStyle.display = "none";
 
+          let transformStyles = {...transform, ...transformStyle};
+
           return (
             <Hammer
               onPress={this.onPress}
@@ -209,7 +213,7 @@ export default class Drawer extends React.Component {
               onPan={this.onPan}
               direction={Hammer.DIRECTION_HORIZONTAL}
             >
-              <div style={transform}>
+              <div style={transformStyles}>
                 <div className={className} style={computedStyle}>
                   {isFunction(children)
                     ? children(interpolated.myProp)
